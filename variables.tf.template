@@ -1,0 +1,23 @@
+### Networking variables ###
+variable "vcn-id" {
+  default = ""
+}
+
+variable "nsg-id" {
+  default = ""
+}
+
+### Misc variables initialization ### 
+data "http" "my_public_ip" {
+  url = "https://ifconfig.co/json"
+  request_headers = {
+    Accept = "application/json"
+  }
+}
+
+locals {
+  ifconfig_co_json = jsondecode(data.http.my_public_ip.body)
+
+  current-timestamp = formatdate("MM.DD.YYYY hh:mm", timestamp())
+}
+
